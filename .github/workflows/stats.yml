@@ -1,0 +1,51 @@
+name: Refresh stats card
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-stats
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v5
+        with:
+          version: 11.7.0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch real GitHub data
+        run: pnpm exec tsx scripts/fetch.ts
+        env:
+          STATS_TOKEN: ${{ secrets.STATS_TOKEN }}
+          STATS_LOGIN: FeathBow
+
+      - name: Render cards
+        run: pnpm exec tsx scripts/build.ts
+
+      - name: Compress PNGs
+        run: |
+          sudo apt-get update && sudo apt-get install -y pngquant
+          pngquant --force --quality=55-92 --ext .png assets/*.png
+
+      - name: Commit refreshed assets
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "[workflow] chore: refresh stats card(skip ci)"
+          file_pattern: "assets/*.png assets/stats-data.json"
