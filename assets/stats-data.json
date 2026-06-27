@@ -1,0 +1,86 @@
+{
+  "name": "FeathBow",
+  "commits": 483,
+  "prs": 153,
+  "issues": 39,
+  "reviews": 1,
+  "contributedTo": 6,
+  "currentStreak": 23,
+  "longestStreak": 23,
+  "contribYear": 1025,
+  "week": [
+    {
+      "day": "Sun",
+      "count": 23
+    },
+    {
+      "day": "Mon",
+      "count": 15
+    },
+    {
+      "day": "Tue",
+      "count": 1
+    },
+    {
+      "day": "Wed",
+      "count": 14
+    },
+    {
+      "day": "Thu",
+      "count": 14
+    },
+    {
+      "day": "Fri",
+      "count": 4
+    },
+    {
+      "day": "Sat",
+      "count": 6
+    }
+  ],
+  "weekStart": "Jun 21",
+  "weekEnd": "Jun 27",
+  "langs": [
+    {
+      "name": "Python",
+      "pct": 87.5,
+      "hue": "peach"
+    },
+    {
+      "name": "JavaScript",
+      "pct": 2.8,
+      "hue": "sage"
+    },
+    {
+      "name": "TypeScript",
+      "pct": 2.7,
+      "hue": "rose"
+    },
+    {
+      "name": "C#",
+      "pct": 2,
+      "hue": "gold"
+    },
+    {
+      "name": "C++",
+      "pct": 1.9,
+      "hue": "blue"
+    },
+    {
+      "name": "Rust",
+      "pct": 1.7,
+      "hue": "plum"
+    },
+    {
+      "name": "HTML",
+      "pct": 0.4,
+      "hue": "teal"
+    },
+    {
+      "name": "C",
+      "pct": 0.3,
+      "hue": "caramel"
+    }
+  ],
+  "updatedAt": "2026-06-27T13:56:22.646Z"
+}
