@@ -1,18 +1,14 @@
 {
   "name": "FeathBow",
-  "commits": 499,
+  "commits": 501,
   "prs": 154,
-  "issues": 39,
+  "issues": 40,
   "reviews": 1,
   "contributedTo": 6,
-  "currentStreak": 24,
-  "longestStreak": 24,
-  "contribYear": 1029,
+  "currentStreak": 25,
+  "longestStreak": 25,
+  "contribYear": 1039,
   "week": [
-    {
-      "day": "Mon",
-      "count": 15
-    },
     {
       "day": "Tue",
       "count": 1
@@ -35,11 +31,15 @@
     },
     {
       "day": "Sun",
+      "count": 10
+    },
+    {
+      "day": "Mon",
       "count": 1
     }
   ],
-  "weekStart": "Jun 22",
-  "weekEnd": "Jun 28",
+  "weekStart": "Jun 23",
+  "weekEnd": "Jun 29",
   "langs": [
     {
       "name": "Python",
@@ -82,5 +82,5 @@
       "hue": "caramel"
     }
   ],
-  "updatedAt": "2026-06-28T07:58:16.979Z"
+  "updatedAt": "2026-06-29T09:07:48.396Z"
 }
