@@ -1,18 +1,14 @@
 {
   "name": "FeathBow",
-  "commits": 507,
-  "prs": 166,
-  "issues": 43,
+  "commits": 510,
+  "prs": 174,
+  "issues": 52,
   "reviews": 1,
-  "contributedTo": 7,
-  "currentStreak": 28,
-  "longestStreak": 28,
-  "contribYear": 1109,
+  "contributedTo": 8,
+  "currentStreak": 29,
+  "longestStreak": 29,
+  "contribYear": 1139,
   "week": [
-    {
-      "day": "Fri",
-      "count": 4
-    },
     {
       "day": "Sat",
       "count": 14
@@ -35,52 +31,56 @@
     },
     {
       "day": "Thu",
-      "count": 15
+      "count": 39
+    },
+    {
+      "day": "Fri",
+      "count": 6
     }
   ],
-  "weekStart": "Jun 26",
-  "weekEnd": "Jul 2",
+  "weekStart": "Jun 27",
+  "weekEnd": "Jul 3",
   "langs": [
     {
       "name": "Python",
-      "pct": 87.5,
+      "pct": 75.9,
       "hue": "peach"
     },
     {
-      "name": "JavaScript",
-      "pct": 2.8,
+      "name": "Shell",
+      "pct": 17.6,
       "hue": "sage"
     },
     {
-      "name": "TypeScript",
-      "pct": 2.7,
+      "name": "JavaScript",
+      "pct": 1.4,
       "hue": "rose"
     },
     {
-      "name": "C#",
-      "pct": 2,
+      "name": "TypeScript",
+      "pct": 1.4,
       "hue": "gold"
     },
     {
-      "name": "C++",
-      "pct": 1.9,
+      "name": "C#",
+      "pct": 1,
       "hue": "blue"
     },
     {
-      "name": "Rust",
-      "pct": 1.7,
+      "name": "C++",
+      "pct": 1,
       "hue": "plum"
     },
     {
-      "name": "HTML",
-      "pct": 0.4,
+      "name": "Rust",
+      "pct": 0.9,
       "hue": "teal"
     },
     {
-      "name": "C",
-      "pct": 0.3,
+      "name": "HTML",
+      "pct": 0.2,
       "hue": "caramel"
     }
   ],
-  "updatedAt": "2026-07-02T07:44:27.298Z"
+  "updatedAt": "2026-07-03T07:36:47.280Z"
 }
