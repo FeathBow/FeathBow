@@ -1,18 +1,14 @@
 {
   "name": "FeathBow",
-  "commits": 522,
-  "prs": 220,
-  "issues": 107,
+  "commits": 525,
+  "prs": 233,
+  "issues": 110,
   "reviews": 3,
   "contributedTo": 8,
-  "currentStreak": 38,
-  "longestStreak": 38,
-  "contribYear": 1412,
+  "currentStreak": 39,
+  "longestStreak": 39,
+  "contribYear": 1456,
   "week": [
-    {
-      "day": "Mon",
-      "count": 30
-    },
     {
       "day": "Tue",
       "count": 23
@@ -23,7 +19,7 @@
     },
     {
       "day": "Thu",
-      "count": 27
+      "count": 26
     },
     {
       "day": "Fri",
@@ -35,11 +31,15 @@
     },
     {
       "day": "Sun",
-      "count": 6
+      "count": 38
+    },
+    {
+      "day": "Mon",
+      "count": 13
     }
   ],
-  "weekStart": "Jul 6",
-  "weekEnd": "Jul 12",
+  "weekStart": "Jul 7",
+  "weekEnd": "Jul 13",
   "langs": [
     {
       "name": "Python",
@@ -48,12 +48,12 @@
     },
     {
       "name": "Shell",
-      "pct": 17.2,
+      "pct": 17.1,
       "hue": "sage"
     },
     {
       "name": "Rust",
-      "pct": 1.6,
+      "pct": 1.7,
       "hue": "rose"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "name": "TypeScript",
-      "pct": 1.4,
+      "pct": 1.3,
       "hue": "blue"
     },
     {
@@ -82,5 +82,5 @@
       "hue": "caramel"
     }
   ],
-  "updatedAt": "2026-07-12T06:46:03.062Z"
+  "updatedAt": "2026-07-13T07:37:43.317Z"
 }
