@@ -46,7 +46,7 @@ const MOCK: StatsCore = {
     { day: 'Fri', count: 7 },
     { day: 'Sat', count: 13 },
     { day: 'Sun', count: 5 },
-    { day: 'Mon', count: 15 },
+    { day: 'Mon', count: 207 },
     { day: 'Tue', count: 8 },
     { day: 'Wed', count: 28 },
   ],
@@ -221,8 +221,21 @@ const base3 = (n: number): Hue[] => {
   }
   return out;
 };
-const wkMax = (): number => Math.max(...STATS.week.map((d) => d.count), 1);
-const peakDay = (): string => STATS.week.reduce((b, d) => (d.count > b.count ? d : b), STATS.week[0]).day;
+const LAB = { threshold: 60, tag: 'experiment', pad: 10, overshoot: 14, flaskS: 20 };
+const isLab = (n: number): boolean => n >= LAB.threshold;
+const normalWeek = (): StatsCore['week'] => {
+  const n = STATS.week.filter((d) => !isLab(d.count));
+  return n.length ? n : STATS.week;
+};
+const wkMax = (): number => Math.max(...normalWeek().map((d) => d.count), 1);
+const peakDay = (): string => normalWeek().reduce((b, d) => (d.count > b.count ? d : b), normalWeek()[0]).day;
+const labTagW = (): number => LAB.pad * 2 + textW(LAB.tag, HF, FS.small);
+const weekLineX0 = (): number => {
+  const normals = STATS.week.filter((d) => !isLab(d.count));
+  const maxApples = Math.max(...normals.map((d) => base3(d.count).length), 1);
+  const labEnd = STATS.week.some((d) => isLab(d.count)) ? L.week.appleX + 17 + labTagW() : 0;
+  return Math.max(L.week.appleX + maxApples * L.week.appleStep, labEnd) + 24;
+};
 function appleFruit(cx: number, cy: number, s: number, c: string): string {
   const r = s * 0.4,
     by = cy - r * 0.86,
@@ -238,7 +251,7 @@ function appleFruit(cx: number, cy: number, s: number, c: string): string {
   const body = `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${c}"/><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="url(#aShade)"/><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="url(#aGloss)"/><ellipse cx="${(cx - r * 0.34).toFixed(1)}" cy="${(cy - r * 0.4).toFixed(1)}" rx="${(r * 0.2).toFixed(1)}" ry="${(r * 0.13).toFixed(1)}" fill="#fff" opacity="0.5"/>`;
   return body + stem + leaf;
 }
-function star(cx: number, cy: number, r: number, fill: string): string {
+function starPathD(cx: number, cy: number, r: number): string {
   const rn = r * 0.55;
   const push = 1.14;
   const O: [number, number][] = [];
@@ -261,7 +274,39 @@ function star(cx: number, cy: number, r: number, fill: string): string {
     d += `Q ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${N[k][0].toFixed(1)} ${N[k][1].toFixed(1)} `;
   }
   d += 'Z';
+  return d;
+}
+function star(cx: number, cy: number, r: number, fill: string): string {
+  const d = starPathD(cx, cy, r);
   return `<path d="${d}" fill="${fill}"/><path d="${d}" fill="url(#aShade)"/><path d="${d}" fill="url(#aGloss)"/>`;
+}
+function ghostStar(cx: number, cy: number, r: number, c: string): string {
+  const d = starPathD(cx, cy, r);
+  return `<path d="${d}" fill="${c}" fill-opacity="0.14" stroke="${c}" stroke-width="2" stroke-dasharray="4 4.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+function labFlask(cx: number, cy: number, s: number, c: string): string {
+  const u = s / 20;
+  const p = (x: number, y: number): string => `${(cx + x * u).toFixed(1)} ${(cy + y * u).toFixed(1)}`;
+  const glass = `M ${p(-2.3, -9.5)} L ${p(-2.3, -2.5)} L ${p(-7.2, 6)} Q ${p(-8.2, 8.6)} ${p(-5.6, 8.6)} L ${p(5.6, 8.6)} Q ${p(8.2, 8.6)} ${p(7.2, 6)} L ${p(2.3, -2.5)} L ${p(2.3, -9.5)}`;
+  const liquid = `M ${p(-4.9, 2)} Q ${p(0, 0.8)} ${p(4.9, 2)} L ${p(7.2, 6)} Q ${p(8.2, 8.6)} ${p(5.6, 8.6)} L ${p(-5.6, 8.6)} Q ${p(-8.2, 8.6)} ${p(-7.2, 6)} Z`;
+  const bub = (x: number, y: number, r: number, o: number): string =>
+    `<circle cx="${(cx + x * u).toFixed(1)}" cy="${(cy + y * u).toFixed(1)}" r="${(r * u).toFixed(1)}" fill="${c}" opacity="${o}"/>`;
+  return (
+    `<path d="${glass}" fill="${c}" fill-opacity="0.08"/>` +
+    `<path d="${liquid}" fill="${c}"/><path d="${liquid}" fill="url(#aShade)"/><path d="${liquid}" fill="url(#aGloss)"/>` +
+    `<ellipse cx="${(cx - 2.6 * u).toFixed(1)}" cy="${(cy + 3.3 * u).toFixed(1)}" rx="${(1.8 * u).toFixed(1)}" ry="${(0.6 * u).toFixed(1)}" fill="#fff" opacity="0.5"/>` +
+    `<path d="M ${p(-4.7, 3.6)} L ${p(-6, 6.4)}" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>` +
+    bub(0.2, -0.6, 1.15, 0.7) +
+    `<circle cx="${(cx - 0.2 * u).toFixed(1)}" cy="${(cy - 1 * u).toFixed(1)}" r="${(0.38 * u).toFixed(1)}" fill="#fff" opacity="0.7"/>` +
+    bub(-1.3, -3.6, 0.85, 0.5) +
+    bub(1.4, -5.9, 0.6, 0.35) +
+    `<path d="${glass}" fill="url(#aGloss)"/>` +
+    `<path d="${glass}" fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M ${p(-3.7, -9.5)} L ${p(3.7, -9.5)}" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/>`
+  );
+}
+function labTag(x: number, yMid: number, c: string): string {
+  const w = labTagW();
+  return `<rect x="${x}" y="${(yMid - 12).toFixed(1)}" width="${w}" height="24" rx="12" fill="${c}" fill-opacity="0.1" stroke="${c}" stroke-width="1.5" stroke-dasharray="1 5.5" stroke-linecap="round"/><text x="${x + LAB.pad}" y="${(yMid + 6).toFixed(1)}" font-family="${HF}" font-size="${FS.small}" fill="${c}">${LAB.tag}</text>`;
 }
 export function moon(cx: number, cy: number, r: number, fill: string, bg: string): string {
   return `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${fill}"/><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="url(#aShade)"/><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="url(#aGloss)"/><circle cx="${(cx + r * 0.36).toFixed(1)}" cy="${(cy - r * 0.14).toFixed(1)}" r="${(r * 0.92).toFixed(1)}" fill="${bg}"/>`;
@@ -309,9 +354,15 @@ function statsAsserts(): void {
     L.week.x + textW('This week', HF, FS.body) + GAP <= IN.r - textW(`most active · ${peakDay()}`, HF, FS.small),
     'This week head vs most-active overlap',
   );
-  const maxApples = Math.max(...STATS.week.map((d) => base3(d.count).length), 1);
-  const lineX0 = L.week.appleX + maxApples * L.week.appleStep + 24;
-  check('stats:week-line-room', lineX0 + 70 <= IN.r, `apples push line too far: ${lineX0.toFixed(0)} vs ${IN.r}`);
+  const lineX0 = weekLineX0();
+  check('stats:week-line-room', lineX0 + 70 <= IN.r, `week left block pushes line too far: ${lineX0.toFixed(0)} vs ${IN.r}`);
+  const labDays = STATS.week.filter((d) => isLab(d.count));
+  const labMax = labDays.length ? Math.max(...labDays.map((d) => d.count)) : 0;
+  check(
+    'stats:week-lab-room',
+    !labDays.length || IN.r - 70 + LAB.overshoot + 11 + GAP <= IN.r - textW(labMax, HF, FS.small),
+    labDays.length ? `lab star edge vs count "${labMax}"` : 'no lab days',
+  );
   const lastRow = L.week.rowY0 + (STATS.week.length - 1) * L.week.rowStep;
   check('stats:week-fits', lastRow + 12 <= IN.b, `last row ${lastRow.toFixed(0)} vs bottom ${IN.b}`);
 }
@@ -366,17 +417,18 @@ function statsCard(P: Palette): string {
   const mx = wkMax();
   const peak = peakDay();
   const W = L.week;
-  const wkPeakIdx = wk.reduce((m, d, i, a) => (d.count > a[m].count ? i : m), 0);
-  const maxApples = Math.max(...wk.map((d) => base3(d.count).length), 1);
-  const lineX0 = W.appleX + maxApples * W.appleStep + 24;
+  const lineX0 = weekLineX0();
   const scale = (IN.r - 70 - lineX0) / mx;
   const cy = (i: number) => W.rowY0 + i * W.rowStep - 5;
-  const pts = wk.map((d, i) => [lineX0 + d.count * scale, cy(i)] as const);
+  const pts = wk.map(
+    (d, i) => [lineX0 + Math.min(d.count, mx) * scale + (isLab(d.count) ? LAB.overshoot : 0), cy(i)] as const,
+  );
   const dayColor = (n: number): string => {
+    if (isLab(n)) return P.plum;
     const hue = base3(n)[0];
     return hue ? P[hue] : P.sub;
   };
-  const peakColor = dayColor(wk[wkPeakIdx].count);
+  const peakColor = dayColor(normalWeek().reduce((b, d) => (d.count > b.count ? d : b), normalWeek()[0]).count);
   const maxX = Math.max(...pts.map((p) => p[0]));
   const areaPath = `M ${lineX0.toFixed(1)} ${pts[0][1].toFixed(1)} ${pts.map((p) => `L ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ')} L ${lineX0.toFixed(1)} ${pts[pts.length - 1][1].toFixed(1)} Z`;
   const proj =
@@ -384,7 +436,7 @@ function statsCard(P: Palette): string {
     wk
       .map(
         (d, i) =>
-          `<rect x="${lineX0.toFixed(1)}" y="${(cy(i) - W.rowStep / 2).toFixed(1)}" width="${(maxX - lineX0).toFixed(1)}" height="${W.rowStep}" fill="${dayColor(d.count)}" opacity="0.5" clip-path="url(#wkArea)"/>`,
+          `<rect x="${lineX0.toFixed(1)}" y="${(cy(i) - W.rowStep / 2).toFixed(1)}" width="${(maxX - lineX0).toFixed(1)}" height="${W.rowStep}" fill="${dayColor(d.count)}" opacity="${isLab(d.count) ? 0.35 : 0.5}" clip-path="url(#wkArea)"/>`,
       )
       .join('');
   const line = `M ${pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(' L ')}`;
@@ -412,11 +464,14 @@ function statsCard(P: Palette): string {
     .map((d, i) => {
       const y = W.rowY0 + i * W.rowStep;
       const today = i === wk.length - 1;
-      const apples = base3(d.count)
-        .map((h, a) => appleFruit(W.appleX + a * W.appleStep, cy(i), W.appleS, P[h]))
-        .join('');
+      const left = isLab(d.count)
+        ? labFlask(W.appleX + 1, cy(i) - 1, LAB.flaskS, P.plum) + labTag(W.appleX + 17, cy(i), P.plum)
+        : base3(d.count)
+            .map((h, a) => appleFruit(W.appleX + a * W.appleStep, cy(i), W.appleS, P[h]))
+            .join('');
       const [vx, vy] = pts[i];
-      return `<text x="${W.x}" y="${y}" font-family="${HF}" font-size="${FS.small}" fill="${today ? P.ink : P.sub}"${today ? ' font-weight="700"' : ''}>${d.day}</text>${apples}${star(vx, vy, 11, dayColor(d.count))}<text x="${IN.r}" y="${(vy + 5).toFixed(1)}" text-anchor="end" font-family="${HF}" font-size="${FS.small}" font-weight="700" fill="${dayColor(d.count)}">${d.count}</text>`;
+      const marker = isLab(d.count) ? ghostStar(vx, vy, 11, P.plum) : star(vx, vy, 11, dayColor(d.count));
+      return `<text x="${W.x}" y="${y}" font-family="${HF}" font-size="${FS.small}" fill="${today ? P.ink : P.sub}"${today ? ' font-weight="700"' : ''}>${d.day}</text>${left}${marker}<text x="${IN.r}" y="${(vy + 5).toFixed(1)}" text-anchor="end" font-family="${HF}" font-size="${FS.small}" font-weight="700" fill="${dayColor(d.count)}">${d.count}</text>`;
     })
     .join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${SW}" height="${SH}" viewBox="0 0 ${SW} ${SH}">${frame(SW, SH, P)}${appleDefs}
