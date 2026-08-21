@@ -1,33 +1,29 @@
 {
   "name": "FeathBow",
-  "commits": 704,
-  "prs": 810,
-  "issues": 653,
+  "commits": 706,
+  "prs": 826,
+  "issues": 668,
   "reviews": 14,
   "contributedTo": 12,
-  "currentStreak": 76,
-  "longestStreak": 76,
-  "contribYear": 3274,
+  "currentStreak": 78,
+  "longestStreak": 78,
+  "contribYear": 3412,
   "week": [
     {
-      "day": "Fri",
-      "count": 65
-    },
-    {
       "day": "Sat",
-      "count": 28
+      "count": 34
     },
     {
       "day": "Sun",
-      "count": 37
+      "count": 46
     },
     {
       "day": "Mon",
-      "count": 51
+      "count": 63
     },
     {
       "day": "Tue",
-      "count": 71
+      "count": 91
     },
     {
       "day": "Wed",
@@ -35,25 +31,29 @@
     },
     {
       "day": "Thu",
-      "count": 0
+      "count": 42
+    },
+    {
+      "day": "Fri",
+      "count": 8
     }
   ],
-  "weekStart": "Aug 14",
-  "weekEnd": "Aug 20",
+  "weekStart": "Aug 15",
+  "weekEnd": "Aug 21",
   "langs": [
     {
       "name": "Python",
-      "pct": 74.9,
+      "pct": 75.3,
       "hue": "peach"
     },
     {
       "name": "Shell",
-      "pct": 14.4,
+      "pct": 14.2,
       "hue": "sage"
     },
     {
       "name": "Rust",
-      "pct": 5.9,
+      "pct": 5.8,
       "hue": "rose"
     },
     {
@@ -68,7 +68,7 @@
     },
     {
       "name": "C#",
-      "pct": 0.9,
+      "pct": 0.8,
       "hue": "plum"
     },
     {
@@ -82,5 +82,5 @@
       "hue": "caramel"
     }
   ],
-  "updatedAt": "2026-08-20T04:52:55.396Z"
+  "updatedAt": "2026-08-21T04:54:19.470Z"
 }
