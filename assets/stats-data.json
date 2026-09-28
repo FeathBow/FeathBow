@@ -1,59 +1,59 @@
 {
   "name": "FeathBow",
-  "commits": 828,
-  "prs": 990,
-  "issues": 760,
+  "commits": 937,
+  "prs": 997,
+  "issues": 762,
   "reviews": 35,
   "contributedTo": 18,
-  "currentStreak": 115,
-  "longestStreak": 115,
-  "contribYear": 4151,
+  "currentStreak": 116,
+  "longestStreak": 116,
+  "contribYear": 4269,
   "week": [
     {
-      "day": "Mon",
-      "count": 15
-    },
-    {
       "day": "Tue",
-      "count": 4
+      "count": 10
     },
     {
       "day": "Wed",
-      "count": 4
+      "count": 10
     },
     {
       "day": "Thu",
-      "count": 5
+      "count": 27
     },
     {
       "day": "Fri",
-      "count": 28
+      "count": 37
     },
     {
       "day": "Sat",
-      "count": 15
+      "count": 28
     },
     {
       "day": "Sun",
-      "count": 6
+      "count": 33
+    },
+    {
+      "day": "Mon",
+      "count": 5
     }
   ],
-  "weekStart": "Sep 21",
-  "weekEnd": "Sep 27",
+  "weekStart": "Sep 22",
+  "weekEnd": "Sep 28",
   "langs": [
     {
       "name": "Python",
-      "pct": 75.4,
+      "pct": 74.7,
       "hue": "peach"
     },
     {
       "name": "Shell",
-      "pct": 13.6,
+      "pct": 13.3,
       "hue": "sage"
     },
     {
       "name": "Rust",
-      "pct": 6.1,
+      "pct": 6,
       "hue": "rose"
     },
     {
@@ -62,25 +62,25 @@
       "hue": "gold"
     },
     {
+      "name": "Haskell",
+      "pct": 1.2,
+      "hue": "blue"
+    },
+    {
       "name": "JavaScript",
       "pct": 1.1,
-      "hue": "blue"
+      "hue": "plum"
     },
     {
       "name": "C#",
       "pct": 0.8,
-      "hue": "plum"
+      "hue": "teal"
     },
     {
       "name": "C++",
       "pct": 0.7,
-      "hue": "teal"
-    },
-    {
-      "name": "TeX",
-      "pct": 0.2,
       "hue": "caramel"
     }
   ],
-  "updatedAt": "2026-09-27T10:00:28.689Z"
+  "updatedAt": "2026-09-28T10:54:53.903Z"
 }
